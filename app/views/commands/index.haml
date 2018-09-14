@@ -1,0 +1,18 @@
+.center
+  %table.table
+    - Table.y_min.upto(Table.y_max) do |y|
+      %tr
+        - Table.x_min.upto(Table.x_max) do |x|
+          %td
+            - if @robot.placed_at?(x, y)
+              %span{class: @robot.face}
+                = ">"
+
+  = form_with url: commands_path do |form|
+    = form.label :command, "Comando"
+    = form.text_field :command, autofocus: true
+    = form.hidden_field :robot_id, value: @robot.id
+    = form.submit "Enviar"
+
+    .error
+      %p
