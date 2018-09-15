@@ -1,20 +1,16 @@
 RSpec.describe Robot, model: true do
   describe '#unplaced?' do
-    context 'position_x not set' do
+    context 'true' do
       it do
-        allow(subject).to receive(:position_x).and_return(nil)
-        allow(subject).to receive(:position_y).and_return('any')
-
+        allow(subject).to receive(:face).and_return(nil)
         expect(subject.unplaced?).to eq(true)
       end
     end
 
-    context 'position_y not set' do
+    context 'false' do
       it do
-        allow(subject).to receive(:position_x).and_return('any')
-        allow(subject).to receive(:position_y).and_return(nil)
-
-        expect(subject.unplaced?).to eq(true)
+        allow(subject).to receive(:face).and_return('north')
+        expect(subject.unplaced?).to eq(false)
       end
     end
   end
@@ -59,52 +55,142 @@ RSpec.describe Robot, model: true do
   end
 
   describe '#next_move' do
-    it do
+    context 'face is north' do
+      it do
+        expect(subject).to receive_messages(north?: true, position_y: 2)
+        expect(subject.next_move).to eq([:y, 1])
+      end
+    end
+
+    context 'face is south' do
+      it do
+        expect(subject).to receive_messages(north?: false, south?: true, position_y: 3)
+        expect(subject.next_move).to eq([:y, 4])
+      end
+    end
+
+    context 'face is west' do
+      it do
+        expect(subject).to receive_messages(north?: false, south?: false, west?: true, position_x: 4)
+        expect(subject.next_move).to eq([:x, 3])
+      end
+    end
+
+    context 'face is east' do
+      it do
+        expect(subject).to receive_messages(north?: false, south?: false, west?: false, position_x: 5)
+        expect(subject.next_move).to eq([:x, 6])
+      end
     end
   end
 
   describe '#rotate_to' do
-    it do
-    end
-  end
+    context 'direction is left' do
+      let(:direction) { double(:direction, left?: true) }
 
-  describe '#north!' do
-    it do
-    end
-  end
+      context 'current face is north' do
+        it do
+          expect(subject).to receive(:face).and_return('north')
+          expect(subject).to receive(:update).with(face: 'west')
 
-  describe '#south!' do
-    it do
-    end
-  end
+          subject.rotate_to(direction)
+        end
+      end
 
-  describe '#west!' do
-    it do
-    end
-  end
+      context 'current face is west' do
+        it do
+          expect(subject).to receive(:face).and_return('west')
+          expect(subject).to receive(:update).with(face: 'south')
 
-  describe '#east!' do
-    it do
+          subject.rotate_to(direction)
+        end
+      end
+
+      context 'current face is south' do
+        it do
+          expect(subject).to receive(:face).and_return('south')
+          expect(subject).to receive(:update).with(face: 'east')
+
+          subject.rotate_to(direction)
+        end
+      end
+
+      context 'current face is east' do
+        it do
+          expect(subject).to receive(:face).and_return('east')
+          expect(subject).to receive(:update).with(face: 'north')
+
+          subject.rotate_to(direction)
+        end
+      end
+    end
+
+    context 'direction is right' do
+      let(:direction) { double(:direction, left?: false) }
+
+      context 'current face is north' do
+        it do
+          expect(subject).to receive(:face).and_return('north')
+          expect(subject).to receive(:update).with(face: 'east')
+
+          subject.rotate_to(direction)
+        end
+      end
+
+      context 'current face is east' do
+        it do
+          expect(subject).to receive(:face).and_return('east')
+          expect(subject).to receive(:update).with(face: 'south')
+
+          subject.rotate_to(direction)
+        end
+      end
+
+      context 'current face is south' do
+        it do
+          expect(subject).to receive(:face).and_return('south')
+          expect(subject).to receive(:update).with(face: 'west')
+
+          subject.rotate_to(direction)
+        end
+      end
+
+      context 'current face is west' do
+        it do
+          expect(subject).to receive(:face).and_return('west')
+          expect(subject).to receive(:update).with(face: 'north')
+
+          subject.rotate_to(direction)
+        end
+      end
     end
   end
 
   describe '#north?' do
     it do
+      expect(subject).to receive(:face).and_return('north')
+      expect(subject.north?).to eq(true)
     end
   end
 
   describe '#south?' do
     it do
+      expect(subject).to receive(:face).and_return('south')
+      expect(subject.south?).to eq(true)
     end
   end
 
   describe '#west?' do
     it do
+      expect(subject).to receive(:face).and_return('west')
+      expect(subject.west?).to eq(true)
     end
   end
 
   describe '#east?' do
     it do
+      expect(subject).to receive(:face).and_return('east')
+      expect(subject.east?).to eq(true)
     end
   end
 end

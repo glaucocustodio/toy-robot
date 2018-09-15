@@ -1,6 +1,6 @@
 class Robot < ApplicationRecord
   def unplaced?
-    position_x == nil || position_y == nil
+    face == nil
   end
 
   def place_at(x, y, given_face)
@@ -21,45 +21,18 @@ class Robot < ApplicationRecord
       [:y, position_y + 1]
     elsif west?
       [:x, position_x - 1]
-    elsif east?
+    else
       [:x, position_x + 1]
     end
   end
 
   def rotate_to(direction)
-    if north? && direction.left?
-      west!
-    elsif north? && direction.right?
-      east!
-    elsif south? && direction.left?
-      east!
-    elsif south? && direction.right?
-      west!
-    elsif west? && direction.left?
-      south!
-    elsif west? && direction.right?
-      north!
-    elsif east? && direction.left?
-      north!
-    elsif east? && direction.right?
-      south!
+    new_direction = if direction.left?
+      Direction::POSSIBILITIES.index(face) - 1
+    else
+      Direction::POSSIBILITIES.index(face) + 1
     end
-  end
-
-  def north!
-    update(face: 'north')
-  end
-
-  def south!
-    update(face: 'south')
-  end
-
-  def west!
-    update(face: 'west')
-  end
-
-  def east!
-    update(face: 'east')
+    update(face: Direction::POSSIBILITIES.fetch(new_direction, Direction::POSSIBILITIES.first))
   end
 
   def north?
