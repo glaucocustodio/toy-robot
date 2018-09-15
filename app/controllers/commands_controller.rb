@@ -17,7 +17,7 @@ class CommandsController < ApplicationController
   private
 
   def robot
-    Robot.find(command_params[:robot_id])
+    Robot[command_params[:robot_id]]
   end
 
   def command_params

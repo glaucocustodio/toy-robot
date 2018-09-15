@@ -1,4 +1,8 @@
-class Robot < ApplicationRecord
+class Robot < Ohm::Model
+  attribute :position_x, ->(attribute) { attribute ? attribute.to_i : nil }
+  attribute :position_y, ->(attribute) { attribute ? attribute.to_i : nil }
+  attribute :face
+
   def unplaced?
     face == nil
   end
@@ -27,12 +31,8 @@ class Robot < ApplicationRecord
   end
 
   def rotate_to(direction)
-    new_direction = if direction.left?
-      Direction::POSSIBILITIES.index(face) - 1
-    else
-      Direction::POSSIBILITIES.index(face) + 1
-    end
-    update(face: Direction::POSSIBILITIES.fetch(new_direction, Direction::POSSIBILITIES.first))
+    new_face = direction.new_face_given(face)
+    update(face: new_face)
   end
 
   def north?
