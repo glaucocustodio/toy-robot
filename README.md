@@ -1,24 +1,33 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Make sure you have Ruby 2.4.1 installed in your machine.
 
-Things you may want to cover:
+Install the dependencies with `bundle` and make sure you have Redis running as well.
 
-* Ruby version
+Ps: I've used Redis instead of ActiveRecord to persist data between requests
 
-* System dependencies
+## Web version
 
-* Configuration
+Run the server `rails s`
 
-* Database creation
+Visit `http://localhost:3000`
 
-* Database initialization
+Type the commands ;) (ex: `place 1,2,south`, `move`, `left`, `right`).
 
-* How to run the test suite
+## CLI
 
-* Services (job queues, cache servers, search engines, etc.)
+Run `bin/rails runner lib/cli.rb` to start the cli
 
-* Deployment instructions
+Type the commands (same as above, including `report`)
 
-* ...
+Ps: you need to use `bin/rails runner` to load rails, a better approach would be to extract the core classes to a gem and have a separate bundle for the cli
+
+## Docker
+
+You can also run using Docker.
+
+Run the docker process then start the services:
+
+`docker-compose up`
+
+Visit `http://localhost:3001` (not 3000)

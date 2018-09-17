@@ -19,7 +19,9 @@ class Move
   end
 
   def act
-    if (direction = command.direction?)
+    if command.report?
+      robot.report
+    elsif (direction = command.direction?)
       robot.rotate_to(direction)
     else
       robot.place_at(x, y, face)

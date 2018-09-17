@@ -7,6 +7,10 @@ class Robot < Ohm::Model
     face == nil
   end
 
+  def report
+    "#{position_x}, #{position_y}, #{face}"
+  end
+
   def place_at(x, y, given_face)
     x ||= position_x
     y ||= position_y

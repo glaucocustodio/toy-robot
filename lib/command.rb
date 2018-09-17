@@ -1,8 +1,8 @@
 class Command
-  attr_reader :command, :robot, :x, :y, :face, :direction
+  attr_reader :command, :cli, :robot, :x, :y, :face, :direction
 
-  def initialize(command, robot)
-    @command, @robot = command, robot
+  def initialize(command, robot, cli: false)
+    @command, @robot, @cli = command, robot, cli
   end
 
   def execute
@@ -11,11 +11,15 @@ class Command
   end
 
   def place?
-    command.match(/place (\d+),(\d+),(north$|south$|west$|east$)/i)&.captures
+    command.match(/^place (\d+),(\d+),(north$|south$|west$|east$)/i)&.captures
   end
 
   def move?
-    command.match(/move/i)
+    command.match(/^move$/i)
+  end
+
+  def report?
+    command.match(/^report$/i)
   end
 
   def direction?
@@ -35,7 +39,7 @@ class Command
   end
 
   def valid_command?
-    place? || move? || direction?
+    place? || move? || direction? || (cli && report?)
   end
 
   def first_command_invalid?
