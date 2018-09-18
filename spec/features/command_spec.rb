@@ -7,10 +7,12 @@ RSpec.feature "Command", type: :feature, js: true do
   scenario "first command is valid" do
     send_command("place 0,0,east")
     expect(table_at(0, 0).text).to eq('>')
+    expect(table_at(0, 0)).to have_css('span.east')
 
     send_command("place 4,4,south")
     expect(table_at(0, 0).text).to eq('')
     expect(table_at(4, 4).text).to eq('>')
+    expect(table_at(4, 4)).to have_css('span.south')
 
     send_command("move")
     expect(page).to have_text("comando inválido")
@@ -38,11 +40,6 @@ RSpec.feature "Command", type: :feature, js: true do
     send_command("left")
     send_command("move")
     expect(table_at(3, 3).text).to eq('>')
-    # page.all('table tr').each do |tr|
-    #   tr.all('td').each do |td|
-    #     ap td.text
-    #   end
-    # end
   end
 
   scenario "first command is invalid" do

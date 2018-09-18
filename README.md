@@ -2,7 +2,7 @@
 
 Make sure you have Ruby 2.4.1 installed in your machine.
 
-Install the dependencies with `bundle` and make sure you have Redis running as well.
+Install the dependencies with `bundle` and make sure you have *Redis* running as well.
 
 Ps: I've used Redis instead of ActiveRecord to persist data between requests
 
@@ -31,3 +31,9 @@ Run the docker process then start the services:
 `docker-compose up`
 
 Visit `http://localhost:3001` (not 3000)
+
+## Tests
+
+You can run the tests with:
+
+`bundle exec rspec`

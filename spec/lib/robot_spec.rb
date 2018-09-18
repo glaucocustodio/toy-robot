@@ -15,12 +15,19 @@ RSpec.describe Robot do
     end
   end
 
+  describe '#report' do
+    it do
+      expect(subject).to receive_messages(position_x: 1, position_y: 2, face: 'north')
+      expect(subject.report).to eq('1, 2, north')
+    end
+  end
+
   describe '#place_at' do
     context 'coordinates given' do
       it do
-        expect(subject).to receive(:update).with(position_x: 1, position_y: 2, face: 'n')
+        expect(subject).to receive(:update).with(position_x: 1, position_y: 2, face: 'north')
 
-        subject.place_at(1, 2, 'N')
+        subject.place_at(1, 2, 'NORTH')
       end
     end
 
