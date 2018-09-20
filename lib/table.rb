@@ -1,4 +1,4 @@
-class Table
+module Table
   class << self
     def x_min
       0
