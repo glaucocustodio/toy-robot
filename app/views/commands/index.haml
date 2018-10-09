@@ -9,10 +9,10 @@
                 = ">"
 
   = form_with url: commands_path do |form|
-    = form.label :command, "Comando"
-    = form.text_field :command, autofocus: true
+    = form.label :command
+    = form.text_field :command, autofocus: true, autocomplete: :off
     = form.hidden_field :robot_id, value: @robot.id
-    = form.submit "Enviar"
+    = form.submit "Send"
 
     .error
       %p
