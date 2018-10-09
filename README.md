@@ -106,6 +106,8 @@ movement of the toy robot on the CLI, only on the web.
 
 # Solution
 
+![demo.gig](https://raw.githubusercontent.com/glaucocustodio/toy-robot/master/demo.gif)
+
 Make sure you have Ruby 2.4.1 installed in your machine.
 
 Install the dependencies with `bundle` and make sure you have *Redis* running as well.
